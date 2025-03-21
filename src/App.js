@@ -129,10 +129,10 @@ function App() {
       <div id="layout-container">
         <div id="header">
           <Logo id="logo" />
-          <label className="switch">
+          {/* <label className="switch">
             <input type="checkbox" />
-            <span className="slider"></span>
-          </label>
+            <span className="slider"></span>         Uncomment for Light/Dark Mode Toggle
+          </label> */}
         </div>
         {/* All inside this next div is rooted to bottom of site */}
         <div id="bottom-content">
