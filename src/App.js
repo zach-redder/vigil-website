@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { supabase } from "./supabase";
 import "./App.css";
 
 // Import the THREE.js library
@@ -16,6 +17,24 @@ import { ReactComponent as YouTubeIcon } from "./assets/youtube.svg";
 function App() {
   // Create a ref to reference the container div
   const containerRef = useRef(null);
+  const [email, setEmail] = useState("");
+
+  const handleEmailSubmit = async () => {
+    if (!email) {
+      alert("Please enter an email.");
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from("emails") // Table name in Supabase
+      .insert([{ user_email: email }]); // Insert new row
+
+    if (error) {
+      console.error("Error inserting email:", error.message);
+    } else {
+      setEmail(""); // Clear input field
+    }
+  };
 
   useEffect(() => {
     // Get the container element from the ref
@@ -150,8 +169,10 @@ function App() {
               id="email-input"
               type="email"
               placeholder="example@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
-            <button>Sign Up</button>
+            <button onClick={handleEmailSubmit}>Sign Up</button>
           </div>
         </div>
         {/* Social Media Icons */}
@@ -173,7 +194,7 @@ function App() {
             <XIcon className="social-icon" />
           </a>
           <a
-            href="https://youtube.com/yourchannel"
+            href="https://youtube.com/@vigilfitness"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Subscribe to our YouTube channel"
